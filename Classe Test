@@ -1,0 +1,55 @@
+import java.util.Scanner;
+import java.lang.Math;
+
+
+public class Test {
+
+    
+    public static void main(String[] args){
+        int[][] image= {{1,2,2},{3,3,3},{0,8,1}};
+        double[] P=new double[9];
+        P=calculateProbability(  image);
+        for (int i=0;i<9;i++){
+          System.out.println(P[i]);
+        }
+        double x;
+        x= calculateEntropy( image);
+        System.out.println(x);    
+    }
+    
+    
+    
+    
+    public static double [] calculateProbability( int[][] image) {
+       int nb=0;
+       int NB_pixel= image.length*image[0].length;
+       double[] T=new double[NB_pixel];
+       for (int i=0;i<image.length;i++){
+          for (int j=0;j<image[0].length;j++) {
+              int nbOcc=0;
+              for (int i1=0;i1<image.length;i1++){
+                  for (int j1=0;j1<image[0].length;j1++) {        
+                       if (image[i][j]==image[i1][j1]){nbOcc+=1;}
+                  }
+              }
+              T[nb]=(nbOcc/NB_pixel);
+              nb+=1;
+          }      
+       }
+       return T;
+    }
+    
+    
+    public static double calculateEntropy( int[][] image){
+        
+        int s=0;
+        int NB_pixel= image.length*image[0].length;
+        double[] P= calculateProbability(image);
+        for (int i=0;i<256;i++){
+           s+= P[i]*Math.log(P[i])/Math.log(2)  ;  
+        }
+        return (-s);
+    }
+
+
+}
